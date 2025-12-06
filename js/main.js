@@ -445,33 +445,42 @@ if (bloomSlider) {
         }
         
         // ===== 8. UI TOGGLE =====
-        const toggleIcon = document.getElementById('toggle-icon');
-        const toggleText = document.getElementById('toggle-text');
+const toggleIcon = document.getElementById('toggle-icon');
+const toggleText = document.getElementById('toggle-text');
+
+toggleBtn.addEventListener('click', () => {
+    this.uiVisible = !this.uiVisible;
+    const uiElement = document.getElementById('ui');
+    const showBtn = document.getElementById('show-ui-btn');
+    
+    if (this.uiVisible) {
+        // Show UI
+        if (uiElement) uiElement.classList.remove('hidden');
+        if (showBtn) showBtn.classList.add('hidden');
         
-        toggleBtn.addEventListener('click', () => {
-            this.uiVisible = !this.uiVisible;
-            uiElement.classList.toggle('hidden', !this.uiVisible);
-            
-            if (this.uiVisible) {
-                if (toggleIcon) toggleIcon.textContent = '👁️';
-                if (toggleText) toggleText.textContent = ' Hide UI (H)';
-                toggleBtn.style.background = 'linear-gradient(135deg, #4a148c, #6a1b9a)';
-            } else {
-                if (toggleIcon) toggleIcon.textContent = '👁️‍🗨️';
-                if (toggleText) toggleText.textContent = ' Show UI (H)';
-                toggleBtn.style.background = '#2d0a5c';
-                
-                // Show indicator briefly
-                const indicator = document.getElementById('immersive-indicator');
-                if (indicator) {
-                    indicator.style.opacity = '0.5';
-                    setTimeout(() => {
-                        indicator.style.opacity = '0';
-                    }, 2000);
-                }
-            }
-        });
+        if (toggleIcon) toggleIcon.textContent = '👁️';
+        if (toggleText) toggleText.textContent = ' Hide UI (H)';
+        toggleBtn.style.background = 'linear-gradient(135deg, #4a148c, #6a1b9a)';
         
+    } else {
+        // Hide UI
+        if (uiElement) uiElement.classList.add('hidden');
+        if (showBtn) showBtn.classList.remove('hidden');
+        
+        if (toggleIcon) toggleIcon.textContent = '👁️‍🗨️';
+        if (toggleText) toggleText.textContent = ' Show UI (H)';
+        toggleBtn.style.background = '#2d0a5c';
+        
+        // Show indicator briefly
+        const indicator = document.getElementById('immersive-indicator');
+        if (indicator) {
+            indicator.style.opacity = '0.5';
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+            }, 2000);
+        }
+    }
+});
         // ===== 9. HOTKEYS =====
         document.addEventListener('keydown', (e) => {
             // Don't trigger if typing in input
@@ -548,6 +557,32 @@ if (boostBtn) {
         
         // Store boost level for use in animate()
         this.waveformBoost = boostLevel;
+    });
+}// ===== 11. MOBILE SUPPORT =====
+// Double tap to show/hide UI on mobile
+let lastTap = 0;
+document.addEventListener('touchend', (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    
+    // If double tap (within 300ms) on empty space
+    if (tapLength < 300 && tapLength > 0 && e.target.id === 'container') {
+        toggleBtn.click();
+        e.preventDefault();
+    }
+    
+    lastTap = currentTime;
+});
+
+// Also allow tapping the immersive indicator to show UI
+const indicator = document.getElementById('immersive-indicator');
+if (indicator) {
+    indicator.style.pointerEvents = 'auto'; // Make it clickable
+    indicator.addEventListener('click', () => {
+        this.showUI();
+    });
+    indicator.addEventListener('touchend', () => {
+        this.showUI();
     });
 }
     }
@@ -985,7 +1020,36 @@ drawStaticWaveform(waveform) {
             this.stopRecording();
         }
     }
+    showUI() {
+    this.uiVisible = true;
+    const uiElement = document.getElementById('ui');
+    const showBtn = document.getElementById('show-ui-btn');
+    const toggleBtn = document.getElementById('toggle-ui');
+    const toggleIcon = document.getElementById('toggle-icon');
+    const toggleText = document.getElementById('toggle-text');
     
+    if (uiElement) {
+        uiElement.classList.remove('hidden');
+    }
+    
+    if (showBtn) {
+        showBtn.classList.add('hidden');
+    }
+    
+    if (toggleBtn) {
+        toggleBtn.style.background = 'linear-gradient(135deg, #4a148c, #6a1b9a)';
+    }
+    
+    if (toggleIcon) {
+        toggleIcon.textContent = '👁️';
+    }
+    
+    if (toggleText) {
+        toggleText.textContent = ' Hide UI (H)';
+    }
+    
+    console.log('UI shown');
+}
     startRecording() {
         try {
             if (!this.renderer || !this.renderer.domElement) {

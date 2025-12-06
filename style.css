@@ -753,3 +753,65 @@ body::before {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* Floating "Show UI" button (appears when UI is hidden) */
+#show-ui-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 99;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#show-ui-btn:not(.hidden) {
+    opacity: 1;
+    pointer-events: all;
+    animation: pulse 2s infinite;
+}
+
+#show-ui-btn button {
+    background: linear-gradient(135deg, #ff00aa, #00aaff);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+}
+
+#show-ui-btn button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 0, 170, 0.4);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* For mobile: make button bigger and easier to tap */
+@media (max-width: 768px) {
+    #show-ui-btn {
+        top: 10px;
+        left: 10px;
+    }
+    
+    #show-ui-btn button {
+        padding: 15px 25px;
+        font-size: 18px;
+        border-radius: 15px;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    #show-ui-btn button {
+        padding: 12px 18px;
+        font-size: 16px;
+    }
+}

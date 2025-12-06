@@ -87,7 +87,19 @@
         
         <div id="status">Ready. Click "Start Audio" to begin.</div>
     </div>
-    
+    <!-- Add this AFTER the UI div but BEFORE the performance monitor -->
+<div id="show-ui-btn" class="hidden">
+    <button onclick="app.showUI()">
+        👁️ Show UI
+    </button>
+</div>
+
+<!-- Keep your performance monitor -->
+<div id="performance">
+    FPS: <span id="fps">0</span> | 
+    Voxels: <span id="voxel-count">400</span> |
+    Particles: <span id="particle-count">1000</span>
+</div>
     <div id="performance">
         FPS: <span id="fps">0</span> | 
         Voxels: <span id="voxel-count">400</span> |
