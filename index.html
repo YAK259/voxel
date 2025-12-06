@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Voxel Waveformer | Live Audio Art</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container"></div>
+    
+    <div id="immersive-indicator">
+        <div style="margin-bottom: 10px;">🎵</div>
+        <div style="font-size: 14px;">Press H to show controls</div>
+    </div>
+    
+    <div id="ui">
+        <h2>🎵 VOXEL WAVEFORMER</h2>
+        
+        <div class="control-group" style="text-align: center;">
+            <button id="toggle-ui">
+                <span id="toggle-icon">👁️</span>
+                <span id="toggle-text"> Hide UI (H)</span>
+            </button>
+        </div>
+        
+        <div class="control-group">
+            <div>Volume: <span id="volume-value">0.0</span></div>
+            <div class="visualizer" id="volume-bar"></div>
+        </div>
+        
+        <div class="control-group">
+            <button id="audio-toggle">🎤 Start Audio</button>
+            <button id="theme-btn">🎨 Random Theme</button>
+            <button id="record-btn">⏺️ Record</button>
+        </div>
+        
+        <div class="control-group">
+            <label>Terrain Intensity: <span id="intensity-value">1.0</span></label>
+            <input type="range" min="0" max="2" step="0.1" value="1.0" class="slider" id="intensity-slider">
+        </div>
+        
+        <div class="control-group">
+            <label>Particle Count: <span id="particle-value">1000</span></label>
+            <input type="range" min="100" max="5000" step="100" value="1000" class="slider" id="particle-slider">
+        </div>
+        
+        <div class="control-group">
+            <label>Bloom Strength: <span id="bloom-value">1.2</span></label>
+            <input type="range" min="0" max="3" step="0.1" value="1.2" class="slider" id="bloom-slider">
+        </div>
+        
+        <div class="control-group">
+            <label>Animation Speed: <span id="speed-value">1.0</span></label>
+            <input type="range" min="0.1" max="3" step="0.1" value="1.0" class="slider" id="speed-slider">
+        </div>
+        
+        <div class="control-group">
+            <button id="auto-rotate">🌀 Auto-Rotate: ON</button>
+            <button id="fullscreen">📺 Fullscreen</button>
+        </div>
+        
+        <div class="control-group">
+            <div style="color: #aaa; margin-bottom: 5px;">Color Themes:</div>
+            <button class="theme-btn" data-theme="cyberpunk">🟪 Cyberpunk</button>
+            <button class="theme-btn" data-theme="oceanic">🌊 Oceanic</button>
+            <button class="theme-btn" data-theme="volcanic">🌋 Volcanic</button>
+            <button class="theme-btn" data-theme="forest">🌲 Forest</button>
+            <button class="theme-btn" data-theme="neon">💡 Neon</button>
+        </div>
+        
+        <!-- KEEP ONLY THIS WAVEFORM SECTION -->
+        <div class="control-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="color: #88ffcc; font-size: 16px;">🎵 LIVE WAVEFORM</span>
+                <button id="boost-waveform" style="width: auto; padding: 4px 10px; font-size: 12px; background: #ff00aa;">
+                    ⚡ BOOST
+                </button>
+            </div>
+            <canvas id="waveform" width="280" height="100"></canvas>
+            <div class="waveform-labels">
+                <span style="color: #ff00aa;">← BASS</span>
+                <span style="color: #00ffaa;">MID</span>
+                <span style="color: #00aaff;">→ TREBLE</span>
+            </div>
+        </div>
+        
+        <div id="status">Ready. Click "Start Audio" to begin.</div>
+    </div>
+    
+    <div id="performance">
+        FPS: <span id="fps">0</span> | 
+        Voxels: <span id="voxel-count">400</span> |
+        Particles: <span id="particle-count">1000</span>
+    </div>
+
+    <!-- USE THIS WORKING CDN -->
+    <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+    
+    <!-- Then load OrbitControls (updated version) -->
+    <script src="js/OrbitControls.js"></script>
+    
+    <!-- Then your other files -->
+    <script src="js/audio.js"></script>
+    <script src="js/voxels.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        console.log('=== VOXEL WAVEFORMER ===');
+        // Check if THREE loaded
+        setTimeout(() => {
+            if (typeof THREE !== 'undefined') {
+                console.log('✅ THREE.js loaded v' + THREE.REVISION);
+                console.log('✅ THREE.Scene:', typeof THREE.Scene);
+                console.log('✅ THREE.Vector3:', typeof THREE.Vector3);
+            } else {
+                console.error('❌ THREE.js failed to load');
+            }
+        }, 100);
+    });
+    </script>
+</body>
+</html>
